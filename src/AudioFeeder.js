@@ -17,7 +17,7 @@ var AudioFeeder;
 	AudioFeeder = function(options) {
 		var self = this;
 		options = options || {};
-	
+
 		// Look for W3C Audio API
 		if (!AudioContext) {
 			// use Flash fallback
@@ -45,7 +45,7 @@ var AudioFeeder;
 			}
 			return buffer;
 		}
-	
+
 		var buffers = [],
 			context,
 			node,
@@ -80,12 +80,12 @@ var AudioFeeder;
 		} else {
 			targetRate = this.targetRate = 44100; // flash fallback
 		}
-	
+
 		function popNextBuffer() {
 			// hack hack
 			// fixme: grab the right number of samples
-			// and... rescale 
-			if (buffers.length > 0) {
+			// and... rescale
+			if (buffers && buffers.length > 0) {
 				return buffers.shift();
 			}
 		}
@@ -139,7 +139,7 @@ var AudioFeeder;
 			queuedTime += (bufferSize / context.sampleRate);
 			playbackTimeAtBufferTail = playbackTime + (bufferSize / context.sampleRate);
 		}
-	
+
 		/**
 		 * This is horribly naive and wrong.
 		 * Replace me with a better algo!
@@ -194,7 +194,7 @@ var AudioFeeder;
 			return new Int16Array(samplecount * 2);
 		}
 
-	
+
 		function pushSamples(samples) {
 			var firstChannel = samples[0],
 				sampleCount = firstChannel.length;
@@ -209,14 +209,14 @@ var AudioFeeder;
 				}
 			}
 		}
-	
+
 		this.init = function(numChannels, sampleRate) {
 			// warning: can't change channels here reliably
 			rate = sampleRate;
 			channels = numChannels;
 			pendingBuffer = freshBuffer();
 		};
-	
+
 		var hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7',
 						 '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 		var hexBytes = [];
@@ -271,17 +271,17 @@ var AudioFeeder;
 				self.close();
 			}
 		};
-	
+
 		function samplesQueued() {
 			if (buffers) {
 				var numSamplesQueued = 0;
 				buffers.forEach(function(buffer) {
 					numSamplesQueued += buffer[0].length;
 				});
-			
+
 				var bufferedSamples = numSamplesQueued;
 				var remainingSamples = Math.floor(Math.max(0, (playbackTimeAtBufferTail - context.currentTime)) * context.sampleRate);
-			
+
 				return bufferedSamples + remainingSamples;
 			} else {
 				return 0;
@@ -338,15 +338,15 @@ var AudioFeeder;
 				};
 			}
 		};
-	
+
 		this.mute = function() {
 			this.muted = muted = true;
 		};
-	
+
 		this.unmute = function() {
 			this.muted = muted = false;
 		};
-		
+
 		this.close = function() {
 			this.stop();
 
@@ -359,7 +359,7 @@ var AudioFeeder;
 			context = null;
 			buffers = null;
 		};
-	
+
 		this.waitUntilReady = function(callback) {
 			var times = 0,
 				maxTimes = 100;
@@ -383,7 +383,7 @@ var AudioFeeder;
 				setTimeout(callback, 0);
 			}
 		};
-		
+
 		this.start = function() {
 			if (this.flashaudio) {
 				this.flashaudio.flashElement.start();
@@ -393,7 +393,7 @@ var AudioFeeder;
 				playbackTimeAtBufferTail = context.currentTime;
 			}
 		};
-		
+
 		this.stop = function() {
 			if (this.flashaudio) {
 				this.flashaudio.flashElement.stop();
@@ -410,7 +410,7 @@ var AudioFeeder;
 		 */
 		this.onstarved = null;
 	};
-	
+
 	AudioFeeder.sharedAudioContext = null;
 	AudioFeeder.initSharedAudioContext = function() {
 		if (AudioFeeder.sharedAudioContext === null) {
@@ -444,10 +444,10 @@ var AudioFeeder;
 
 	Copyright (c) 2010, Ben Firshman
 	All rights reserved.
- 
+
 	Redistribution and use in source and binary forms, with or without
 	modification, are permitted provided that the following conditions are met:
- 
+
 	 * Redistributions of source code must retain the above copyright notice, this
 	   list of conditions and the following disclaimer.
 	 * Redistributions in binary form must reproduce the above copyright notice,
@@ -455,7 +455,7 @@ var AudioFeeder;
 	   and/or other materials provided with the distribution.
 	 * The names of its contributors may not be used to endorse or promote products
 	   derived from this software without specific prior written permission.
- 
+
 	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -488,7 +488,7 @@ var AudioFeeder;
 
 		flashWrapper: null,
 		flashElement: null,
-	
+
 		init: function(opts) {
 			var self = this;
 			self.id = DynamicAudio.nextId++;

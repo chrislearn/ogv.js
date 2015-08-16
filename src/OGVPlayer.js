@@ -37,6 +37,12 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		codecClass = null,
 		codecType = null;
 
+	var ua = navigator.userAgent,
+	 		ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+      ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/),
+      iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+			ios = ipad || ipod || iphone,
+			autoPlayDisableSound = ios;
 	var webGLdetected = WebGLFrameSink.isAvailable();
 	var useWebGL = (options.webGL !== false) && webGLdetected;
 	if(!!options.forceWebGL) {
@@ -64,14 +70,14 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		SEEKING: 'SEEKING',
 		ENDED: 'ENDED'
 	}, state = State.INITIAL;
-	
+
 	var SeekState = {
 		NOT_SEEKING: 'NOT_SEEKING',
 		BISECT_TO_TARGET: 'BISECT_TO_TARGET',
 		BISECT_TO_KEYPOINT: 'BISECT_TO_KEYPOINT',
 		LINEAR_TO_TARGET: 'LINEAR_TO_TARGET'
 	}, seekState = SeekState.NOT_SEEKING;
-	
+
 	var audioOptions = {},
 		codecOptions = {};
 	options.base = options.base || OGVLoader.base;
@@ -87,10 +93,10 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		audioOptions.audioContext = options.audioContext;
 	}
 	codecOptions.worker = enableWorker;
-	
+
 	var canvas = document.createElement('canvas');
 	var frameSink;
-	
+
 	// Return a magical custom element!
 	var self = document.createElement('ogvjs');
 	self.className = instanceId;
@@ -176,7 +182,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		};
 		audioFeeder.init(audioInfo.channels, audioInfo.rate);
 	}
-	
+
 	function startPlayback(offset) {
 		if (audioFeeder) {
 			audioFeeder.start();
@@ -190,7 +196,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		}
 		log('continuing at ' + initialPlaybackPosition + ', ' + initialPlaybackOffset);
 	}
-	
+
 	function stopPlayback() {
 		if (audioFeeder) {
 			audioFeeder.stop();
@@ -198,7 +204,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		initialPlaybackOffset = getPlaybackTime();
 		log('pausing at ' + initialPlaybackOffset);
 	}
-	
+
 	/**
 	 * Get audio playback time position in file's units
 	 *
@@ -225,7 +231,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		ended = false,
 		startedPlaybackInDocument = false,
 		waitingOnInput = false;
-	
+
 	var framesPlayed = 0;
 	// Benchmark data, exposed via getPlaybackStats()
 	var framesProcessed = 0, // frames
@@ -255,7 +261,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		frameEndTimestamp = 0.0;
 		audioEndTimestamp = 0.0;
 		lastFrameDecodeTime = 0.0;
-		
+
 		if (stream) {
 			stream.abort();
 			stream = null;
@@ -273,14 +279,14 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			nextProcessingTimer = null;
 		}
 	}
-	
+
 	var continueVideo = null;
-	
+
 	var lastFrameTime = getTimestamp(),
 		frameEndTimestamp = 0.0,
 		audioEndTimestamp = 0.0,
 		yCbCrBuffer = null;
-	var lastFrameDecodeTime = 0.0;		
+	var lastFrameDecodeTime = 0.0;
 	var lastFrameTimestamp = 0.0;
 
 	function doFrameComplete() {
@@ -373,11 +379,13 @@ OGVPlayer = window.OGVPlayer = function(options) {
 				});
 			});
 		});
+		fireEvent('seeking');
 	}
-	
+
 	function continueSeekedPlayback() {
 		seekState = SeekState.NOT_SEEKING;
 		state = State.PLAYING;
+		fireEvent('seeked');
 		frameEndTimestamp = codec.frameTimestamp;
 		audioEndTimestamp = codec.audioTimestamp;
 		if (codec.hasAudio) {
@@ -396,7 +404,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	}
-	
+
 	/**
 	 * @return {boolean} true to continue processing, false to wait for input data
 	 */
@@ -421,7 +429,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 				});
 				return;
 			} else {
-				// Reached or surpassed the target time. 
+				// Reached or surpassed the target time.
 				if (codec.hasAudio) {
 					// Keep processing the audio track
 					// fall through...
@@ -450,7 +458,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	}
-	
+
 	function doProcessBisectionSeek() {
 		var frameDuration,
 			timestamp;
@@ -515,7 +523,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	}
-	
+
 	function setupVideo() {
 		if (videoInfo.fps > 0) {
 			targetPerFrameTime = 1000 / videoInfo.fps;
@@ -525,10 +533,10 @@ OGVPlayer = window.OGVPlayer = function(options) {
 
 		canvas.width = videoInfo.displayWidth;
 		canvas.height = videoInfo.displayHeight;
-		OGVPlayer.styleManager.appendRule('.' + instanceId, {
-			width: videoInfo.displayWidth + 'px',
-			height: videoInfo.displayHeight + 'px'
-		});
+		// OGVPlayer.styleManager.appendRule('.' + instanceId, {
+		// 	width: videoInfo.displayWidth + 'px',
+		// 	height: videoInfo.displayHeight + 'px'
+		// });
 		OGVPlayer.updatePositionOnResize();
 
 		if (useWebGL) {
@@ -659,7 +667,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 
 			state = State.PLAYING;
 			lastFrameTimestamp = getTimestamp();
-			if (codec.hasAudio) {
+			if (codec.hasAudio && !audioFeeder && !(autoplay && autoPlayDisableSound)) {
 				initAudioFeeder();
 				audioFeeder.waitUntilReady(function() {
 					startPlayback(0.0);
@@ -703,7 +711,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 					} else {
 						// Ran out of stream!
 						var finalDelay = 0;
-						if (codec.hasAudio) {
+						if (codec.hasAudio && audioFeeder) {
 							audioState = audioFeeder.getPlaybackState();
 							audioBufferedDuration = (audioState.samplesQueued / audioFeeder.targetRate);
 							finalDelay = audioBufferedDuration * 1000;
@@ -731,7 +739,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 						pingProcessing();
 
 					} else {
-		
+
 						var audioBufferedDuration = 0,
 							audioDecodingDuration = 0,
 							audioState = null,
@@ -967,7 +975,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		if (started || codec) {
 			return;
 		}
-		
+
 		framesProcessed = 0;
 		demuxingTime = 0;
 		videoDecodingTime = 0;
@@ -982,7 +990,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			readBytesAndWait();
 		});
 	}
-	
+
 	function loadCodec(callback) {
 		// @todo use the demuxer and codec interfaces directly
 		codecClassName = 'OGVWrapperCodec';
@@ -1008,7 +1016,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			// already loaded.
 			return;
 		}
-	
+
 		started = false;
 		stream = new StreamFile({
 			url: self.src,
@@ -1016,7 +1024,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			onstart: function() {
 				// Fire off the read/decode/draw loop...
 				byteLength = stream.bytesTotal;
-			
+
 				// If we get X-Content-Duration, that's as good as an explicit hint
 				var durationHeader = stream.getResponseHeader('X-Content-Duration');
 				if (typeof durationHeader === 'string') {
@@ -1065,7 +1073,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		});
 	};
-	
+
 	/**
 	 * HTMLMediaElement canPlayType method
 	 */
@@ -1099,19 +1107,22 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return '';
 		}
 	};
-	
+
 	/**
 	 * HTMLMediaElement play method
 	 */
-	self.play = function() {
-		if (!audioOptions.audioContext) {
+	self.play = function(ap) {
+		autoplay  = (ap === true);
+		if (!audioOptions.audioContext && !(autoplay && autoPlayDisableSound)) {
 			OGVPlayer.initSharedAudioContext();
+		}else{
+			muted = true;
 		}
-		
+
 		if (!stream) {
 			self.load();
 		}
-		
+
 		if (paused) {
 			startedPlaybackInDocument = document.body.contains(self);
 			paused = false;
@@ -1138,7 +1149,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	};
-	
+
 	/**
 	 * custom getPlaybackStats method
 	 */
@@ -1169,7 +1180,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		totalFrameTime = 0;
 		totalFrameCount = 0;
 	};
-	
+
 	/**
 	 * HTMLMediaElement pause method
 	 */
@@ -1185,7 +1196,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			fireEvent('pause');
 		}
 	};
-	
+
 	/**
 	 * custom 'stop' method
 	 */
@@ -1197,7 +1208,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 	 * HTMLMediaElement src property
 	 */
 	self.src = "";
-	
+
 	/**
 	 * HTMLMediaElement buffered property
 	 */
@@ -1212,7 +1223,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return new OGVTimeRanges([[0, estimatedBufferTime]]);
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement seekable property
 	 */
@@ -1225,7 +1236,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement currentTime property
 	 */
@@ -1251,7 +1262,20 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	});
-	
+
+	Object.defineProperty(self, "autoplay", {
+		get: function() {
+			return autoplay;
+		},
+		set: function(val) {
+			if (codec && codec.hasAudio && !val) {
+				initAudioFeeder();
+			}else{
+				muted = true;
+			}
+			autoplay = val;
+		}
+	});
 	/**
 	 * HTMLMediaElement duration property
 	 */
@@ -1268,7 +1292,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement paused property
 	 */
@@ -1277,7 +1301,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return paused;
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement ended property
 	 */
@@ -1286,7 +1310,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return ended;
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement ended property
 	 */
@@ -1295,7 +1319,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return (state == State.SEEKING);
 		}
 	});
-	
+
 	/**
 	 * HTMLMediaElement muted property
 	 */
@@ -1304,6 +1328,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			return muted;
 		},
 		set: function setMuted(val) {
+			if (muted === val) return;
 			muted = val;
 			if (audioFeeder) {
 				if (muted) {
@@ -1312,9 +1337,10 @@ OGVPlayer = window.OGVPlayer = function(options) {
 					audioFeeder.unmute();
 				}
 			}
+			fireEvent('volumechange');
 		}
 	});
-	
+
 	Object.defineProperty(self, "poster", {
 		get: function getPoster() {
 			return poster;
@@ -1327,25 +1353,25 @@ OGVPlayer = window.OGVPlayer = function(options) {
 				}
 				thumbnail = new Image();
 				thumbnail.src = poster;
-				thumbnail.className = 'ogvjs-poster';
-				thumbnail.style.position = 'absolute';
-				thumbnail.style.top = '0';
-				thumbnail.style.left = '0';
-				thumbnail.style.width = '100%';
-				thumbnail.style.height = '100%';
-				thumbnail.style.objectFit = 'contain';
+				// thumbnail.className = 'ogvjs-poster';
+				// thumbnail.style.position = 'absolute';
+				// thumbnail.style.top = '0';
+				// thumbnail.style.left = '0';
+				// thumbnail.style.width = '100%';
+				// thumbnail.style.height = '100%';
+				// thumbnail.style.objectFit = 'contain';
 				thumbnail.addEventListener('load', function() {
-					OGVPlayer.styleManager.appendRule('.' + instanceId, {
-						width: thumbnail.naturalWidth + 'px',
-						height: thumbnail.naturalHeight + 'px'
-					});
+					// OGVPlayer.styleManager.appendRule('.' + instanceId, {
+					// 	width: thumbnail.naturalWidth + 'px',
+					// 	height: thumbnail.naturalHeight + 'px'
+					// });
 					self.appendChild(thumbnail);
 					OGVPlayer.updatePositionOnResize();
 				});
 			}
 		}
 	});
-	
+
 	// Video metadata properties...
 	Object.defineProperty(self, "videoWidth", {
 		get: function getVideoWidth() {
@@ -1378,7 +1404,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	});
-	
+
 	// Audio metadata properties...
 	Object.defineProperty(self, "ogvjsAudioChannels", {
 		get: function getOgvJsAudioChannels() {
@@ -1398,7 +1424,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 		}
 	});
-	
+
 	// Display size...
 	var width = 0, height = 0;
 	Object.defineProperty(self, "width", {
@@ -1410,7 +1436,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			self.style.width = width + 'px';
 		}
 	});
-	
+
 	Object.defineProperty(self, "height", {
 		get: function getHeight() {
 			return height;
@@ -1427,28 +1453,28 @@ OGVPlayer = window.OGVPlayer = function(options) {
 	 * custom onframecallback, takes frame decode time in ms
 	 */
 	self.onframecallback = null;
-	
+
 	/**
 	 * Called when all metadata is available.
 	 * Note in theory we must know 'duration' at this point.
 	 */
 	self.onloadedmetadata = null;
-	
+
 	/**
 	 * Called when we start playback
 	 */
 	self.onplay = null;
-	
+
 	/**
 	 * Called when we get paused
 	 */
 	self.onpause = null;
-	
+
 	/**
 	 * Called when playback ends
 	 */
 	self.onended = null;
-	
+
 	return self;
 };
 
@@ -1458,27 +1484,27 @@ OGVPlayer.initSharedAudioContext = function() {
 
 OGVPlayer.instanceCount = 0;
 
-function StyleManager() {
-	var self = this;
-	var el = document.createElement('style');
-	el.type = 'text/css';
-	el.textContent = 'ogvjs { display: inline-block; position: relative; }';
-	document.head.appendChild(el);
-
-	var sheet = el.sheet;
-
-	self.appendRule = function(selector, defs) {
-		var bits = [];
-		for (var prop in defs) {
-			if (defs.hasOwnProperty(prop)) {
-				bits.push(prop + ':' + defs[prop]);
-			}
-		}
-		var rule = selector + '{' + bits.join(';') + '}';
-		sheet.insertRule(rule, sheet.length - 1);
-	};
-}
-OGVPlayer.styleManager = new StyleManager();
+// function StyleManager() {
+// 	var self = this;
+// 	var el = document.createElement('style');
+// 	el.type = 'text/css';
+// 	//el.textContent = 'ogvjs { display: inline-block; position: relative; }';
+// 	document.head.appendChild(el);
+//
+// 	var sheet = el.sheet;
+//
+// 	self.appendRule = function(selector, defs) {
+// 		var bits = [];
+// 		for (var prop in defs) {
+// 			if (defs.hasOwnProperty(prop)) {
+// 				bits.push(prop + ':' + defs[prop]);
+// 			}
+// 		}
+// 		var rule = selector + '{' + bits.join(';') + '}';
+// 		sheet.insertRule(rule, sheet.length - 1);
+// 	};
+// }
+// OGVPlayer.styleManager = new StyleManager();
 
 // IE 10/11 and Edge 12 don't support object-fit.
 // Chrome 43 supports it but it doesn't work on <canvas>!

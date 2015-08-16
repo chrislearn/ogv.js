@@ -17,7 +17,7 @@ var player = null;
 var paused = false;
 var sampleFile = 'media/curiosity.ogv';
 
-function play(src) {
+function play(src, isAutoplay) {
 	if(player) {
 		player.stop();
 		player.parentNode.removeChild(player);
@@ -33,7 +33,7 @@ function play(src) {
 		player.play();
 	}
 	*/
-	player.play();
+	player.play(isAutoplay);
 	
 }
 
@@ -57,7 +57,9 @@ function switchmedia(src) {
 		document.getElementById("videoarea").innerHTML = '';
 	}
 }
-
+window.addEventListener('load', function(){
+    play(sampleFile, true);
+}, false)
 </script>
 
 
