@@ -101,12 +101,12 @@ OGVPlayer = window.OGVPlayer = function(options) {
 	var self = document.createElement('ogvjs');
 	self.className = instanceId;
 
-	canvas.style.position = 'absolute';
-	canvas.style.top = '0';
-	canvas.style.left = '0';
-	canvas.style.width = '100%';
-	canvas.style.height = '100%';
-	canvas.style.objectFit = 'contain';
+	// canvas.style.position = 'absolute';
+	// canvas.style.top = '0';
+	// canvas.style.left = '0';
+	// canvas.style.width = '100%';
+	// canvas.style.height = '100%';
+	// canvas.style.objectFit = 'contain';
 	self.appendChild(canvas);
 
 	var getTimestamp;
@@ -537,7 +537,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		// 	width: videoInfo.displayWidth + 'px',
 		// 	height: videoInfo.displayHeight + 'px'
 		// });
-		OGVPlayer.updatePositionOnResize();
+		// OGVPlayer.updatePositionOnResize();
 
 		if (useWebGL) {
 			frameSink = new WebGLFrameSink(canvas, videoInfo);
@@ -664,7 +664,6 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 
 		} else if (state == State.READY) {
-
 			state = State.PLAYING;
 			lastFrameTimestamp = getTimestamp();
 			if (codec.hasAudio && !audioFeeder && !(autoplay && autoPlayDisableSound)) {
@@ -679,7 +678,6 @@ OGVPlayer = window.OGVPlayer = function(options) {
 			}
 
 		} else if (state == State.SEEKING) {
-
 			codec.process(function processSeeking(more) {
 				if (!more) {
 					readBytesAndWait();
@@ -1116,7 +1114,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 		if (!audioOptions.audioContext && !(autoplay && autoPlayDisableSound)) {
 			OGVPlayer.initSharedAudioContext();
 		}else{
-			muted = true;
+			self.muted = true;
 		}
 
 		if (!stream) {
@@ -1208,6 +1206,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 	 * HTMLMediaElement src property
 	 */
 	self.src = "";
+  self.ogvjs = true;
 
 	/**
 	 * HTMLMediaElement buffered property
@@ -1366,7 +1365,7 @@ OGVPlayer = window.OGVPlayer = function(options) {
 					// 	height: thumbnail.naturalHeight + 'px'
 					// });
 					self.appendChild(thumbnail);
-					OGVPlayer.updatePositionOnResize();
+					// OGVPlayer.updatePositionOnResize();
 				});
 			}
 		}
@@ -1511,60 +1510,60 @@ OGVPlayer.instanceCount = 0;
 // Safari for iOS 8/9 supports it but positions our <canvas> incorrectly >:(
 // Also just for fun, IE 10 doesn't support 'auto' sizing on canvas. o_O
 //OGVPlayer.supportsObjectFit = (typeof document.createElement('div').style.objectFit === 'string');
-OGVPlayer.supportsObjectFit = false;
-if (OGVPlayer.supportsObjectFit) {
-	OGVPlayer.updatePositionOnResize = function() {
-		// no-op
-	};
-} else {
-	OGVPlayer.updatePositionOnResize = function() {
-		function fixup(el, width, height) {
-			var container = el.offsetParent || el.parentNode,
-				containerAspect = container.offsetWidth / container.offsetHeight,
-				intrinsicAspect = width / height;
-			if (intrinsicAspect > containerAspect) {
-				var vsize = container.offsetWidth / intrinsicAspect,
-					vpad = (container.offsetHeight - vsize) / 2;
-				el.style.width = '100%';
-				el.style.height = vsize + 'px';
-				el.style.marginLeft = 0;
-				el.style.marginRight = 0;
-				el.style.marginTop = vpad + 'px';
-				el.style.marginBottom = vpad + 'px';
-			} else {
-				var hsize = container.offsetHeight * intrinsicAspect,
-					hpad = (container.offsetWidth - hsize) / 2;
-				el.style.width = hsize + 'px';
-				el.style.height = '100%';
-				el.style.marginLeft = hpad + 'px';
-				el.style.marginRight = hpad + 'px';
-				el.style.marginTop = 0;
-				el.style.marginBottom = 0;
-			}
-		}
-		function queryOver(selector, callback) {
-			var nodeList = document.querySelectorAll(selector),
-				nodeArray = Array.prototype.slice.call(nodeList);
-			nodeArray.forEach(callback);
-		}
-
-		queryOver('ogvjs > canvas', function(canvas) {
-			fixup(canvas, canvas.width, canvas.height);
-		});
-		queryOver('ogvjs > img', function(poster) {
-			fixup(poster, poster.naturalWidth, poster.naturalHeight);
-		});
-	};
-	var fullResizeVideo = function() {
-		// fullscreens may ping us before the resize happens
-		setTimeout(OGVPlayer.updatePositionOnResize, 0);
-	};
-
-	window.addEventListener('resize', OGVPlayer.updatePositionOnResize);
-	window.addEventListener('orientationchange', OGVPlayer.updatePositionOnResize);
-
-	document.addEventListener('fullscreenchange', fullResizeVideo);
-	document.addEventListener('mozfullscreenchange', fullResizeVideo);
-	document.addEventListener('webkitfullscreenchange', fullResizeVideo);
-	document.addEventListener('MSFullscreenChange', fullResizeVideo);
-}
+// OGVPlayer.supportsObjectFit = false;
+// if (OGVPlayer.supportsObjectFit) {
+// 	OGVPlayer.updatePositionOnResize = function() {
+// 		// no-op
+// 	};
+// } else {
+// 	OGVPlayer.updatePositionOnResize = function() {
+// 		function fixup(el, width, height) {
+// 			var container = el.offsetParent || el.parentNode,
+// 				containerAspect = container.offsetWidth / container.offsetHeight,
+// 				intrinsicAspect = width / height;
+// 			if (intrinsicAspect > containerAspect) {
+// 				var vsize = container.offsetWidth / intrinsicAspect,
+// 					vpad = (container.offsetHeight - vsize) / 2;
+// 				el.style.width = '100%';
+// 				el.style.height = vsize + 'px';
+// 				el.style.marginLeft = 0;
+// 				el.style.marginRight = 0;
+// 				el.style.marginTop = vpad + 'px';
+// 				el.style.marginBottom = vpad + 'px';
+// 			} else {
+// 				var hsize = container.offsetHeight * intrinsicAspect,
+// 					hpad = (container.offsetWidth - hsize) / 2;
+// 				el.style.width = hsize + 'px';
+// 				el.style.height = '100%';
+// 				el.style.marginLeft = hpad + 'px';
+// 				el.style.marginRight = hpad + 'px';
+// 				el.style.marginTop = 0;
+// 				el.style.marginBottom = 0;
+// 			}
+// 		}
+// 		function queryOver(selector, callback) {
+// 			var nodeList = document.querySelectorAll(selector),
+// 				nodeArray = Array.prototype.slice.call(nodeList);
+// 			nodeArray.forEach(callback);
+// 		}
+//
+// 		queryOver('ogvjs > canvas', function(canvas) {
+// 			fixup(canvas, canvas.width, canvas.height);
+// 		});
+// 		queryOver('ogvjs > img', function(poster) {
+// 			fixup(poster, poster.naturalWidth, poster.naturalHeight);
+// 		});
+// 	};
+// 	var fullResizeVideo = function() {
+// 		// fullscreens may ping us before the resize happens
+// 		setTimeout(OGVPlayer.updatePositionOnResize, 0);
+// 	};
+//
+// 	window.addEventListener('resize', OGVPlayer.updatePositionOnResize);
+// 	window.addEventListener('orientationchange', OGVPlayer.updatePositionOnResize);
+//
+// 	document.addEventListener('fullscreenchange', fullResizeVideo);
+// 	document.addEventListener('mozfullscreenchange', fullResizeVideo);
+// 	document.addEventListener('webkitfullscreenchange', fullResizeVideo);
+// 	document.addEventListener('MSFullscreenChange', fullResizeVideo);
+// }
