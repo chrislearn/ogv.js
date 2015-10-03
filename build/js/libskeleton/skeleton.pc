@@ -1,0 +1,13 @@
+prefix=/home/chris/Respostories/chrislearn/ogv.js/build/js/root
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: skeleton
+Description: A library for reading and writing Ogg skeleton data.
+URL: http://xiph.org/skeleton
+Requires: ogg
+Version: 0.1.0
+Libs: -L${libdir} -lskeleton
+Libs.private: -logg
+Cflags: -I${includedir}

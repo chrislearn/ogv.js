@@ -1,0 +1,13 @@
+PROJECT_NAME           = libnestegg
+PROJECT_NUMBER         = 0.1git
+OUTPUT_DIRECTORY       = .
+JAVADOC_AUTOBRIEF      = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+CASE_SENSE_NAMES       = NO
+SORT_MEMBER_DOCS       = NO
+QUIET                  = YES
+WARN_NO_PARAMDOC       = YES
+INPUT                  = ../../../../libnestegg/include/nestegg
+EXCLUDE                = ../../../../libnestegg/include/nestegg/nestegg-stdint.h
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO

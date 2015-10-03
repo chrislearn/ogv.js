@@ -1,0 +1,13 @@
+# nestegg uninstalled pkg-config file
+
+prefix=/home/chris/Respostories/chrislearn/ogv.js/build/js/root
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: nestegg
+Description: WebM demuxer
+Version: 0.1git
+Conflicts:
+Libs: -L${libdir} -lnestegg
+Cflags: -I${includedir}

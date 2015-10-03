@@ -1,0 +1,46 @@
+dirac.o: ../../../../../liboggz/src/tools/../liboggz/dirac.c \
+  ../../config.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdint.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h \
+  ../../../../../liboggz/src/liboggz/dirac.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/ogg.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stddef.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/os_types.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/config_types.h \
+  /opt/emsdk/emscripten/master/system/include/libc/inttypes.h \
+  /opt/emsdk/emscripten/master/system/include/libc/features.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/types.h \
+  /opt/emsdk/emscripten/master/system/include/libc/endian.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/select.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/sysmacros.h
+
+../../config.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdint.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h:
+
+../../../../../liboggz/src/liboggz/dirac.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/ogg.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stddef.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/os_types.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/config_types.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/inttypes.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/features.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/types.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/endian.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/select.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/sysmacros.h:

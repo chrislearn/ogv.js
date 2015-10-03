@@ -1,0 +1,81 @@
+celt/cwrs.lo: ../../../libopus/celt/cwrs.c config.h \
+  ../../../libopus/celt/os_support.h \
+  ../../../libopus/include/opus_types.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdint.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h \
+  ../../../libopus/include/opus_defines.h \
+  /opt/emsdk/emscripten/master/system/include/compat/string.h \
+  /opt/emsdk/emscripten/master/system/include/libc/string.h \
+  /opt/emsdk/emscripten/master/system/include/libc/features.h \
+  /opt/emsdk/emscripten/master/system/include/libc/strings.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdio.h \
+  /opt/emsdk/emscripten/master/system/include/compat/stdlib.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdlib.h \
+  /opt/emsdk/emscripten/master/system/include/libc/alloca.h \
+  ../../../libopus/celt/cwrs.h ../../../libopus/celt/arch.h \
+  ../../../libopus/celt/stack_alloc.h ../../../libopus/celt/entenc.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stddef.h \
+  ../../../libopus/celt/entcode.h \
+  /opt/emsdk/emscripten/master/system/include/libc/limits.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/limits.h \
+  ../../../libopus/celt/ecintrin.h \
+  /opt/emsdk/emscripten/master/system/include/compat/math.h \
+  /opt/emsdk/emscripten/master/system/include/libc/math.h \
+  ../../../libopus/celt/entdec.h ../../../libopus/celt/mathops.h
+
+config.h:
+
+../../../libopus/celt/os_support.h:
+
+../../../libopus/include/opus_types.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdint.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h:
+
+../../../libopus/include/opus_defines.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/string.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/string.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/features.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/strings.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdio.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/stdlib.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdlib.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/alloca.h:
+
+../../../libopus/celt/cwrs.h:
+
+../../../libopus/celt/arch.h:
+
+../../../libopus/celt/stack_alloc.h:
+
+../../../libopus/celt/entenc.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stddef.h:
+
+../../../libopus/celt/entcode.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/limits.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/limits.h:
+
+../../../libopus/celt/ecintrin.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/math.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/math.h:
+
+../../../libopus/celt/entdec.h:
+
+../../../libopus/celt/mathops.h:

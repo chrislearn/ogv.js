@@ -1,0 +1,10 @@
+mimetypes.o: ../../../../../liboggz/src/tools/mimetypes.c \
+  /opt/emsdk/emscripten/master/system/include/libc/stddef.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h \
+  ../../../../../liboggz/src/tools/mimetypes.h
+
+/opt/emsdk/emscripten/master/system/include/libc/stddef.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h:
+
+../../../../../liboggz/src/tools/mimetypes.h:

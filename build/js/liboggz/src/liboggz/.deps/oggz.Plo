@@ -1,0 +1,129 @@
+oggz.lo: ../../../../../liboggz/src/liboggz/oggz.c ../../config.h \
+  /opt/emsdk/emscripten/master/system/include/libc/assert.h \
+  /opt/emsdk/emscripten/master/system/include/libc/features.h \
+  /opt/emsdk/emscripten/master/system/include/compat/stdlib.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdlib.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h \
+  /opt/emsdk/emscripten/master/system/include/libc/alloca.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdio.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/types.h \
+  /opt/emsdk/emscripten/master/system/include/libc/endian.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stdint.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/select.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/sysmacros.h \
+  /opt/emsdk/emscripten/master/system/include/compat/sys/stat.h \
+  /opt/emsdk/emscripten/master/system/include/libc/sys/stat.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/stat.h \
+  /opt/emsdk/emscripten/master/system/include/libc/unistd.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/posix.h \
+  /opt/emsdk/emscripten/master/system/include/libc/fcntl.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/fcntl.h \
+  /opt/emsdk/emscripten/master/system/include/libc/errno.h \
+  /opt/emsdk/emscripten/master/system/include/libc/bits/errno.h \
+  /opt/emsdk/emscripten/master/system/include/compat/string.h \
+  /opt/emsdk/emscripten/master/system/include/libc/string.h \
+  /opt/emsdk/emscripten/master/system/include/libc/strings.h \
+  /opt/emsdk/emscripten/master/system/include/compat/time.h \
+  /opt/emsdk/emscripten/master/system/include/libc/time.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/ogg.h \
+  /opt/emsdk/emscripten/master/system/include/libc/stddef.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/os_types.h \
+  /home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/config_types.h \
+  /opt/emsdk/emscripten/master/system/include/libc/inttypes.h \
+  ../../../../../liboggz/src/liboggz/oggz_compat.h \
+  ../../../../../liboggz/src/liboggz/oggz_private.h \
+  ../../../../../liboggz/include/oggz/oggz_constants.h \
+  ../../../../../liboggz/include/oggz/oggz_off_t.h \
+  ../../include/oggz/oggz_off_t_generated.h \
+  ../../../../../liboggz/include/oggz/oggz_packet.h \
+  ../../../../../liboggz/src/liboggz/oggz_macros.h \
+  ../../../../../liboggz/src/liboggz/oggz_vector.h \
+  ../../../../../liboggz/src/liboggz/oggz_dlist.h \
+  ../../../../../liboggz/src/liboggz/oggz_stream_private.h
+
+../../config.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/assert.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/features.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/stdlib.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdlib.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/alltypes.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/alloca.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdio.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/types.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/endian.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stdint.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/stdint.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/select.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/sysmacros.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/sys/stat.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/sys/stat.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/stat.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/unistd.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/posix.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/fcntl.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/fcntl.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/errno.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/bits/errno.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/string.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/string.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/strings.h:
+
+/opt/emsdk/emscripten/master/system/include/compat/time.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/time.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/ogg.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/stddef.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/os_types.h:
+
+/home/chris/Respostories/chrislearn/ogv.js/build/js/root/include/ogg/config_types.h:
+
+/opt/emsdk/emscripten/master/system/include/libc/inttypes.h:
+
+../../../../../liboggz/src/liboggz/oggz_compat.h:
+
+../../../../../liboggz/src/liboggz/oggz_private.h:
+
+../../../../../liboggz/include/oggz/oggz_constants.h:
+
+../../../../../liboggz/include/oggz/oggz_off_t.h:
+
+../../include/oggz/oggz_off_t_generated.h:
+
+../../../../../liboggz/include/oggz/oggz_packet.h:
+
+../../../../../liboggz/src/liboggz/oggz_macros.h:
+
+../../../../../liboggz/src/liboggz/oggz_vector.h:
+
+../../../../../liboggz/src/liboggz/oggz_dlist.h:
+
+../../../../../liboggz/src/liboggz/oggz_stream_private.h:
