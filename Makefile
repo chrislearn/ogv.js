@@ -1,4 +1,4 @@
-VERSION:=0.9.9beta
+VERSION:=1.0
 BUILDDATE:=$(shell date -u "+%Y%m%d%H%M%S")
 HASH:=$(shell git rev-parse --short HEAD)
 FULLVER:=$(VERSION)-$(BUILDDATE)-$(HASH)
@@ -63,7 +63,7 @@ build/js/root/lib/libogg.a : configureOgg.sh compileOggJs.sh
 	./configureOgg.sh
 	./compileOggJs.sh
 
-build/js/root/lib/liboggz.a : configureOggz.sh compileOggzJs.sh
+build/js/root/lib/liboggz.a : build/js/root/lib/libogg.a configureOggz.sh compileOggzJs.sh
 	test -d build || mkdir build
 	./configureOggz.sh
 	./compileOggzJs.sh
